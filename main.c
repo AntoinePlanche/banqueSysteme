@@ -5,14 +5,15 @@
 int main()
 {
     Banque BNPParibas = NULL;
-    for(int i = 0; i<5 ; i++)
+    for(int i = 0; i<3 ; i++)
     {
       BNPParibas = addClient(BNPParibas);
     }
     displayClient(BNPParibas);
     operation(2,BNPParibas);
-    operation(2,BNPParibas);
     displayClient(BNPParibas);
+    displaySingleClient(rechercheClient("Planche","Antoine",BNPParibas));
     liberez(BNPParibas);
+    displayClient(BNPParibas);
     return 0;
 }

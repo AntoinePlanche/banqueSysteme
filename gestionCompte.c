@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "gestionCompte.h"
+#include <string.h>
 
 
 Banque initializeBanque(Banque banque)
@@ -39,7 +40,7 @@ void liberez(Banque banque)
 {
     int reponse;
     do{
-       printf("Voulez-vous supprimer un client ou la banque en entier\n1->Banque\n2->Client");
+       printf("Voulez-vous supprimer un client ou la banque en entier\n1->Banque\n2->Client\n");
        scanf("%i",&reponse);
     }while(reponse != 1 && reponse != 2);
     if(reponse == 1)
@@ -55,9 +56,9 @@ void liberez(Banque banque)
     {
         Banque temp = banque;
         int numeroClient;
-        printf("quel cient voulez vous supprimez");
+        printf("quel client voulez-vous supprimez ?\n");
         scanf("%i",&numeroClient);
-        while(temp->next->compte.numeroDeCompte != numeroClient)
+        while(temp->next->compte.numeroDeCompte != numeroClient && temp != NULL)
         {
             temp = temp->next;
         }
@@ -78,7 +79,7 @@ Banque addClient(Banque banque)
 {
     banque = initializeBanque(banque);
     Banque temp = banque;
-    int numeroDuCompte = 0;
+    int numeroDuCompte = 1;
     while(temp->next != NULL)
     {
         temp = temp->next;
@@ -123,17 +124,30 @@ void displayClient(Banque societeGeneral)
     Banque temp = societeGeneral;
     while(temp != NULL)
     {
-        printf("Client numero : %i, votre prenom est :%s, votre nom est : %s\nvotre adresse est : %s, votre solde est de : %i",(temp->compte).numeroDeCompte, temp->prenom, temp->nom, temp->adresse, (temp->compte).solde);
+        displaySingleClient(temp);
+        temp = temp->next;
+    }
+}
+
+void displaySingleClient(Client* temp)
+{
+    if(temp != NULL)
+    {
+        printf("Client numero : %i, prenom est :%s, nom est : %s, adresse est : %s, solde de : %i",(temp->compte).numeroDeCompte, temp->prenom, temp->nom, temp->adresse, (temp->compte).solde);
         if(temp->typeClient == court)
         {
-            printf(" et vous etes un client temporaire.\n");
+            printf(", client temporaire.\n");
         }
         else
         {
-            printf(" et vous etes un client TP.\n");
+            printf(", client long terme.\n");
         }
-        temp = temp->next;
     }
+    else
+    {
+        printf("Client introuvable");
+    }
+
 }
 
 void operation(int numeroClient, Banque banque)
@@ -155,9 +169,9 @@ void operation(int numeroClient, Banque banque)
     {
         int reponse;
         do{
-                printf("Quelle opération voulez vous faire ?\n1->depot\n2->retrait\n");
+                printf("Quelle operation voulez vous faire ?\n1->depot\n2->retrait\n");
                 scanf("%i",&reponse);
-        }while(reponse != 1 && depot != 2);
+        }while(reponse != 1 && reponse != 2);
         if(reponse == 1)
         {
             int depot;
@@ -189,9 +203,9 @@ void operation(int numeroClient, Banque banque)
         else
         {
             int retrait;
-            printf("combien voulez vous deposer ?\n");
+            printf("combien voulez vous retirer ?\n");
             scanf("%i",&retrait);
-            temp->compte.solde -= depot;
+            temp->compte.solde -= retrait;
             Operation nouvelle;
             time_t now;
             time(&now);
@@ -216,4 +230,36 @@ void operation(int numeroClient, Banque banque)
 
         }
     }
+}
+
+Banque rechercheClient(char* nom,char* prenom,Banque societeGeneral)
+{
+    Banque temp = societeGeneral;
+    int reponse = 2;
+    while(reponse == 2)
+    {
+        while( temp != NULL &&(strcmp(temp->nom,nom) || strcmp(temp->prenom,prenom)) )
+        {
+            temp = temp->next;
+        }
+        if(temp == NULL)
+        {
+            printf("Client introuvable\n");
+            return temp;
+        }
+        else
+        {
+            printf("Le client est-il bien: \n");
+            displaySingleClient(temp);
+            do{
+                printf("1->OUI\n2->NON\n");
+                scanf("%i",&reponse);
+            }while(reponse != 1 && reponse != 2);
+            if(reponse == 2)
+            {
+                temp = temp->next;
+            }
+        }
+    }
+    return temp;
 }

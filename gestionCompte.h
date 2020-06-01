@@ -42,5 +42,8 @@ Banque initializeBanque(Banque banque);
 Banque addClient(Banque banque);
 void liberez(Banque banque);
 void displayClient(Banque societeGeneral);
+void displaySingleClient(Client* temp);
 void operation(int numeroClient, Banque banque);
+Banque rechercheClient(char* nom,char* prenom,Banque societeGeneral);
+
 #endif // GESTIONCOMPTE_H_INCLUDED
