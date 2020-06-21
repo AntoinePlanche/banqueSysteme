@@ -44,6 +44,12 @@ void liberez(Banque banque);
 void displayClient(Banque societeGeneral);
 void displaySingleClient(Client* temp);
 void operation(int numeroClient, Banque banque);
+void Depot(Banque temp);
+void Retrait(Banque temp);
 Banque rechercheClient(char* nom,char* prenom,Banque societeGeneral);
+void editerCompte(Banque bnp);
+void OperationCompte(char* nom, char* prenom, Banque SG);
+void EditionOperationEcran(Banque SG);
+void EditionOperationFichier(Banque SG, char* nom, char* prenom);
 
 #endif // GESTIONCOMPTE_H_INCLUDED
